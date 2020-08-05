@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  api:
+    env_file: Shared/Common.env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5000:80"
+    restart: on-failure
+    depends_on:
+      - data
+    networks: 
+        - mt-network
+
+  data:
+    ports: 
+        - "6642:1433"
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=yourStrongPassword12!@
+    volumes: 
+        - sqldata:/var/opt/mssql 
+    networks: 
+        - mt-network
